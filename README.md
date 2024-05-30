@@ -1,2 +1,2 @@
-# vscode
-docker compose of code-server
+# vscdoe
+ docker image for vscode 

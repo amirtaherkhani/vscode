@@ -1,0 +1,5 @@
+setuptools
+wheel
+psycopg2-binary
+autopep8
+
