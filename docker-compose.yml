@@ -3,13 +3,12 @@ services:
     image: vscoder:latest
     container_name: vscoder
     hostname: vscode-server
-    user: "1000:1000"
     stdin_open: true # docker run -i
     tty: true # docker run -t
     environment:
       - TZ=America/New_York
     ports:
-      - 8080:8080 # vscoder ui app
+      - 8880:8080 # vscoder ui app
       - 2233:22  # ssh to container 
     healthcheck:
       test: "wget --no-verbose --tries=1 --spider http://localhost:8083/healthz || exit 1 "
@@ -21,9 +20,10 @@ services:
       - ./logs:/home/coder/.local/share/code-server/coder-logs
       - ./extensions:/home/coder/.local/share/code-server/extensions
       - ./vsix:/home/coder/.local/share/code-server/vsix
-      - $HOME:/home/coder
+      - ./home/dev:/home/coder/host # change  to current user home
     networks:
-      - vscoder-network
+      - default
 networks:
-  vscoder-network:
-    external: true
+  default :
+    name: vscoder-network
+    
