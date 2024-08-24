@@ -1,37 +1,26 @@
 services:
-  vscode-image:
-    profiles:
-      - build
-    build:
-      context: .
-      args:
-        - UID=${UID:-1000}
-        - GID=${GID:-1000}
-    user: ${UID}:${GID}
-    image: vscode:${TAG:-latest}
   vscode-server:
     image: vscode:${TAG:-latest}
     container_name: vscode
     hostname: vscode
+    user: ${UID}:${GID}
     stdin_open: true # docker run -i
     tty: true # docker run -t
     ports:
-      - 8083:8080
+      - 8080:8080
     healthcheck:
-      test: "wget --no-verbose --tries=1 --spider http://localhost:8083/healthz ||
-        exit 1 "
+      test: "wget --no-verbose --tries=1 --spider http://localhost:8083/healthz || exit 1 "
       interval: 5s
       retries: 5
       timeout: 2s
     volumes:
       - $PWD/.config:/home/coder/.config
-      - $PWD/projects:/home/coder/projects
-      - $PWD/logs:/home/coder/.local/share/code-server/coder-logs
+      - $PWD/.logs:/home/coder/.local/share/code-server/coder-logs
       - $PWD/extensions:/home/coder/.local/share/code-server/extensions
       - $PWD/vsix:/home/coder/.local/share/code-server/vsix
-      - $HOME/.docker:/home/coder/.docker
+      - $HOME/:/home/coder
     networks:
-      - traefik-network
+      - vscode-network
 networks:
-  traefik-network:
+  vscode-network:
     external: true

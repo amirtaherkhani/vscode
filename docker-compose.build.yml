@@ -1,0 +1,9 @@
+services:
+  vscode-image:
+    build:
+      context: .
+      args:
+        - UID=${UID:-1000}
+        - GID=${GID:-1000}
+    user: ${UID}:${GID}
+    image: vscode:${TAG:-latest}

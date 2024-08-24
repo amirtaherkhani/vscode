@@ -8,11 +8,15 @@ COPY bashrc $HOME/.bashrc
 RUN apt-get  update 
 RUN apt-get upgrade -y
 ENV DEBIAN_FRONTEND=noninteractive 
-ENV TZ=Asia/Tehran
-RUN apt-get  install  --no-install-recommends nano git openssh-server openssh-client wget curl  -y
+ENV TZ=America/New_York
+RUN apt-get  install  --no-install-recommends nano git openssh-server openssh-client openssl wget curl  -y
 RUN apt-get install --no-install-recommends python3.10 python3-venv python3-dev python3-pip -y
-RUN apt-get install build-essential libssl-dev libmysqlclient-dev  -y
-RUN apt-get install -y libxml2-dev libxslt1-dev zlib1g-dev libsasl2-dev libldap2-dev libssl-dev libffi-dev libmysqlclient-dev libjpeg-dev libpq-dev libjpeg8-dev liblcms2-dev libblas-dev libatlas-base-dev
+RUN apt-get install build-essential -y
+RUN sudo apt update \
+    sudo apt install pipx \
+    pipx ensurepath \
+    sudo pipx ensurepath --global
+RUN pipx install poetry
 RUN service ssh start
 RUN python3 --version
 RUN apt-get -y install --no-install-recommends tzdata
