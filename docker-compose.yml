@@ -8,7 +8,7 @@ services:
     environment:
       - TZ=America/New_York
     ports:
-      - 8880:8080 # vscoder ui app
+      - 8080:8080 # vscoder ui app
       - 2233:22 # ssh to container
     healthcheck:
       test: "wget --no-verbose --tries=1 --spider http://localhost:8083/healthz || exit 1 "
@@ -21,6 +21,7 @@ services:
       - ./extensions:/home/coder/.local/share/code-server/extensions
       - ./vsix:/home/coder/.local/share/code-server/vsix
       - /home/dev/:/home/coder/host/ # change  to current user home
+      - /home/dev/.git:/home/coder/.git
     networks:
       - default
 networks:

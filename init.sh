@@ -1,3 +1,3 @@
 ## run file bash init.sh
-mkdir -p ./logs ./extensions ./.config  ./vsix
-openssl rand -base64 12 > .psswd.txt
+mkdir -p ./extensions ./.config  ./vsix ./logs
+sudo chown $USER:$USER ./extensions ./.config  ./vsix ./logs
