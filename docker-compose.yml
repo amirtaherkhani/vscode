@@ -11,7 +11,7 @@ services:
       - 8080:8080 # vscoder ui app
       - 2233:22 # ssh to container
     healthcheck:
-      test: "wget --no-verbose --tries=1 --spider http://localhost:8083/healthz || exit 1 "
+      test: "curl -v http://localhost:8080/healthz || exit 1 "
       interval: 5s
       retries: 5
       timeout: 2s
