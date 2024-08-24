@@ -2,6 +2,7 @@ FROM codercom/code-server:ubuntu
 
 USER coder
 # Set environment variables
+COPY bashrc.sh  /home/coder/.bashrc.sh
 ENV DEBIAN_FRONTEND=noninteractive \
     TZ=America/New_York \
     PATH="/root/.local/bin:${PATH}" \
