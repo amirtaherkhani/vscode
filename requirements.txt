@@ -1,5 +1,3 @@
-setuptools
-wheel
 autopep8
 pylint
 
