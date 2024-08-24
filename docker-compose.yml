@@ -1,26 +1,29 @@
 services:
   vscode-server:
-    image: vscode:${TAG:-latest}
-    container_name: vscode
-    hostname: vscode
+    image: vscoder:${TAG:-latest}
+    container_name: vscoder
+    hostname: vscode-server
     user: ${UID}:${GID}
     stdin_open: true # docker run -i
     tty: true # docker run -t
+    environment:
+      - TZ=America/New_York
     ports:
-      - 8080:8080
+      - 8080:8080 # vscoder ui app
+      - 2233:22  # ssh to container 
     healthcheck:
       test: "wget --no-verbose --tries=1 --spider http://localhost:8083/healthz || exit 1 "
       interval: 5s
       retries: 5
       timeout: 2s
     volumes:
-      - $PWD/.config:/home/coder/.config
-      - $PWD/.logs:/home/coder/.local/share/code-server/coder-logs
-      - $PWD/extensions:/home/coder/.local/share/code-server/extensions
-      - $PWD/vsix:/home/coder/.local/share/code-server/vsix
-      - $HOME/:/home/coder
+      - ./.config:/home/coder/.config
+      - ./logs:/home/coder/.local/share/code-server/coder-logs
+      - ./extensions:/home/coder/.local/share/code-server/extensions
+      - ./vsix:/home/coder/.local/share/code-server/vsix
+      - $HOME:/home/coder
     networks:
-      - vscode-network
+      - vscoder-network
 networks:
-  vscode-network:
+  vscoder-network:
     external: true
