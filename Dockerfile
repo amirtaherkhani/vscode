@@ -1,4 +1,4 @@
-FROM codercom/code-server:ubuntu
+FROM codercom/code-server:ubuntu:latest
 
 RUN  mkdir  -p ~/.local/share/code-server/extensions
 RUN  mkdir  -p ~/.local/share/code-server/vsix
