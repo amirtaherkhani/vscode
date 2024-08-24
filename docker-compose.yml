@@ -21,7 +21,7 @@ services:
       - ./extensions:/home/coder/.local/share/code-server/extensions
       - ./vsix:/home/coder/.local/share/code-server/vsix
       - /home/dev/:/home/coder/host/ # change  to current user home
-      - /home/dev/.git:/home/coder/.git
+      - /home/dev/.gitconfig:/home/coder/.gitconfig # host git config
     networks:
       - default
 networks:

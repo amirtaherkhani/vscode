@@ -17,7 +17,7 @@ RUN sudo ln -fs /usr/share/zoneinfo/${TZ} /etc/localtime \
 RUN sudo apt-get update \
     && sudo apt-get upgrade -y \
     && sudo apt-get install --no-install-recommends -y \
-    nano git openssh-server openssh-client openssl wget curl \
+    nano git openssh-server openssh-client openssl wget curl git \
     python3.10 python3-venv python3-dev python3-pip build-essential tzdata \
     && sudo apt-get clean \
     && sudo apt-get autoclean \
