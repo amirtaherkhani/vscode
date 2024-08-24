@@ -1,36 +1,45 @@
 FROM codercom/code-server:ubuntu
 
-RUN  mkdir  -p ~/.local/share/code-server/extensions
-RUN  mkdir  -p ~/.local/share/code-server/vsix
-
-USER root
-COPY bashrc.sh home/coder/.bashrc.sh
-RUN apt-get  update 
-RUN apt-get upgrade -y
-ENV DEBIAN_FRONTEND=noninteractive 
-ENV TZ=America/New_York
-RUN apt-get  install  --no-install-recommends nano git openssh-server openssh-client openssl wget curl  -y
-RUN apt-get install --no-install-recommends python3.10 python3-venv python3-dev python3-pip -y
-RUN apt-get install  build-essential -y
-RUN sudo apt update \
-    sudo apt install pipx \
-    pipx ensurepath \
-    sudo pipx ensurepath --global
-RUN pipx install poetry
-RUN service ssh start
-RUN python3 --version
-RUN apt-get -y install --no-install-recommends tzdata
-RUN apt-get clean 
-RUN rm -rf /var/lib/apt/lists/*
-RUN echo  "alias python=python3.10">> /root/.bashrc
-
 USER coder
-COPY bashrc.sh home/coder/.bashrc.sh
-RUN echo  "alias python=python3.10">> ~/.bashrc
-ENV PYTHON_VERSION=3.10
-RUN pip install --no-cache-dir -U  --upgrade pip 
-RUN pip install --no-cache-dir -U  setuptools wheel
-COPY requirements.txt ./requirements.txt
-RUN pip3 install --no-cache-dir -U  -r  requirements.txt
-RUN rm -rf requirements.txt
+# Set environment variables
+ENV DEBIAN_FRONTEND=noninteractive \
+    TZ=America/New_York \
+    PATH="/root/.local/bin:${PATH}" \
+    PATH="/home/coder/.local/bin:${PATH}" \
+    PATH="/usr/local/bin:${PATH}"
+
+# Set timezone configuration without triggering interactive prompts
+RUN sudo ln -fs /usr/share/zoneinfo/${TZ} /etc/localtime \
+    && echo "${TZ}" | sudo tee /etc/timezone
+
+# Install dependencies
+RUN sudo apt-get update \
+    && sudo apt-get upgrade -y \
+    && sudo apt-get install --no-install-recommends -y \
+    nano git openssh-server openssh-client openssl wget curl \
+    python3.10 python3-venv python3-dev python3-pip build-essential tzdata \
+    && sudo apt-get clean \
+    && sudo apt-get autoclean \
+    && sudo rm -rf /var/lib/apt/lists/*
+
+RUN python3 -m pip --no-cache-dir install --user pipx \
+    && python3 -m pipx ensurepath \
+    && /home/coder/.local/bin/pipx install --quiet poetry
+
+RUN echo "alias pipx=python3 -m pipx" >> /home/coder/.bashrc\
+    && echo "alias python=python3.10" >> /home/coder/.bashrc \
+    && echo 'export PATH=$HOME/.local/bin:$PATH' >> /home/coder/.bashrc \
+    && mkdir -p ~/.local/share/code-server/extensions \
+    && mkdir -p ~/.local/share/code-server/vsix \ 
+    && /home/coder/.local/bin/poetry completions bash >> /home/coder/.bash_completion 
+
+COPY requirements.txt /requirements.txt
+RUN pip install --no-cache-dir -U pip setuptools wheel \
+    && pip install --no-cache-dir -r /requirements.txt \
+    && sudo rm -rf /requirements.txt 
+
+RUN sudo apt-get clean \
+    && sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    && sudo rm -rf ~/.cache/pip
+
 EXPOSE 22
