@@ -37,5 +37,5 @@ jobs:
       - name: Push Docker Image
         run: |
           IMAGE_TAG=$(docker images --filter=reference='amirtaherkhani/vscoder' --format "{{.Tag}}" | head -n 1)
-          docker push amirmoth/vscoder:$IMAGE_TAG
-          echo "Current Image push to docker.io : docker.io/amirmoth/vscoder:${IMAGE_TAG}"
+          docker push amirtaherkhani/vscoder:$IMAGE_TAG
+          echo "Current Image push to Docker Hub: docker.io/amirmoth/vscoder:${IMAGE_TAG}"
