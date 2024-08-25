@@ -1,6 +1,7 @@
 name: Release
 
 on:
+  workflow_dispatch: 
   push:
     tags:
       - 'v*' # Trigger only on tag push that matches 'v*'
