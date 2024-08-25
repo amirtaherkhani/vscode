@@ -49,4 +49,4 @@ jobs:
 
     - name: Push Docker Image
       run: |
-        docker push amirtaherkhani/vscoder:${{ env.TAG_NAME || env.BRANCH_NAME }}
+        docker push amirmoth/vscoder:${{ env.TAG_NAME || env.BRANCH_NAME }}
