@@ -36,4 +36,4 @@ jobs:
     - name: Push Docker Image
       run: |
         IMAGE_TAG=${{ github.ref_name }}
-        docker push amirtaherkhani/vscoder:$IMAGE_TAG
+        docker push amirmoth/vscoder:$IMAGE_TAG
