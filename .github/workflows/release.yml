@@ -1,6 +1,7 @@
 name: Release
 
 on:
+  workflow_dispatch:  # Allows manual triggering from the GitHub UI
   push:
     tags:
       - "v*" # Trigger only on tag push that matches 'v*'
