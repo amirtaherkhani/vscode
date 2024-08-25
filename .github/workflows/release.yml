@@ -25,7 +25,7 @@ jobs:
       - name: Build Docker Image
         run: |
           IMAGE_TAG=${{ github.ref_name }}
-          docker build -t amirtaherkhani/vscoder:$IMAGE_TAG .
+          docker build -t amirmoth/vscoder:$IMAGE_TAG .
           echo "Current Image tag name : ${IMAGE_TAG}"
 
       - name: Log in to Docker Hub
@@ -36,6 +36,6 @@ jobs:
 
       - name: Push Docker Image
         run: |
-          IMAGE_TAG=$(docker images --filter=reference='amirtaherkhani/vscoder' --format "{{.Tag}}" | head -n 1)
-          docker push amirtaherkhani/vscoder:$IMAGE_TAG
+          IMAGE_TAG=$(docker images --filter=reference='amirmoth/vscoder' --format "{{.Tag}}" | head -n 1)
+          docker push amirmoth/vscoder:$IMAGE_TAG
           echo "Current Image push to Docker Hub: docker.io/amirmoth/vscoder:${IMAGE_TAG}"
