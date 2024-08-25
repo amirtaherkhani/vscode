@@ -1,7 +1,12 @@
 name: Release
 
 on:
-  workflow_dispatch: # Allows manual triggering from the GitHub UI
+  workflow_dispatch:
+    inputs:
+      tag_latest:
+        description: "Set Docker image tag to 'latest'"
+        required: false
+        default: 'false'
   push:
     tags:
       - "v*" # Trigger only on tag push that matches 'v*'
@@ -39,3 +44,10 @@ jobs:
           IMAGE_TAG=$(docker images --filter=reference='amirmoth/vscoder' --format "{{.Tag}}" | head -n 1)
           docker push amirmoth/vscoder:$IMAGE_TAG
           echo "Current Image push to Docker Hub: docker.io/amirmoth/vscoder:${IMAGE_TAG}"
+          
+          # Check if the input 'tag_latest' is true and if so, tag the image as 'latest'
+          if [ "${{ github.event.inputs.tag_latest }}" == "true" ]; then
+            docker tag amirmoth/vscoder:$IMAGE_TAG amirmoth/vscoder:latest
+            docker push amirmoth/vscoder:latest
+            echo "Image also tagged as 'latest' and pushed to Docker Hub"
+          fi
