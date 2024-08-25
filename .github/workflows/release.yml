@@ -1,6 +1,7 @@
 name: Release
 
 on:
+  workflow_dispatch:  # Allows manual triggering from the GitHub UI
   push:
     tags:
       - 'v*'  # Trigger only on tag push that matches 'v*'
@@ -21,13 +22,13 @@ jobs:
     - name: Install dependencies
       run: pip install --upgrade pip setuptools wheel poetry
 
-    - name: Extract Tag Name from Docker
+    - name: Extract Tag Name
       id: extract_tag
       run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
 
     - name: Build Docker Image
       run: |
-        IMAGE_TAG=$(echo ${{ env.TAG_NAME }})
+        IMAGE_TAG=${{ env.TAG_NAME }}
         docker build -t amirtaherkhani/vscoder:$IMAGE_TAG .
         echo "Docker image tag: $IMAGE_TAG"
 
@@ -39,5 +40,5 @@ jobs:
 
     - name: Push Docker Image
       run: |
-        IMAGE_TAG=$(echo ${{ env.TAG_NAME }})
-        docker push amirtaherkhani/vscoder:$IMAGE_TAG
+        IMAGE_TAG=$(docker images --filter=reference='amirtaherkhani/vscoder' --format "{{.Tag}}" | head -n 1)
+        docker push amirmoth/vscoder:$IMAGE_TAG
