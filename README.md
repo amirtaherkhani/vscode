@@ -1,3 +1,4 @@
+<img src=".banner.svg" alt="Banner" width="600" />
 
 
 Run VS Code⁠ on any machine anywhere and access it through the browser. base on [code-server](https://hub.docker.com/r/codercom/code-server)
