@@ -1,4 +1,4 @@
-# **vscdoer** ![logo](https://icon-icons.com/downloadimage.php?id=189949&root=3053/PNG/32/&file=microsoft_visual_studio_code_alt_macos_bigsur_icon_189949.png)
+
 
 Run VS Code⁠ on any machine anywhere and access it through the browser. base on [code-server](https://hub.docker.com/r/codercom/code-server)
 
