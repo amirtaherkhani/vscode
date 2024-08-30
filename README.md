@@ -16,17 +16,51 @@ Run VS Code⁠ on any machine anywhere and access it through the browser. base o
 
 ## Installation
 
-Install my-project with npm
+Self-Hosting Instructions
+To run your own self-hosted instance of VSCode Server using this repository, follow these steps:
 
-```bash
-  npm install my-project
-  cd my-project
-```
+Prerequisites:
+
+Ensure Docker and Docker Compose are installed on your server.
+Open necessary ports on your firewall (e.g., port 8080).
+Clone the Repository:
+
+bash
+Copy code
+git clone https://github.com/amirtaherkhani/vscoder.git
+cd vscoder
+Initialize the Setup:
+
+Run the initialization script to set up the environment:
+bash
+Copy code
+./init.sh
+Run the Server:
+
+bash
+Copy code
+docker-compose up -d
+Access the Server:
+
+Visit http://your-domain:8080 or https://your-domain (if SSL is configured).
+Security Considerations:
+
+Set up strong authentication and regularly update your Docker images to maintain security.
+This process provides a fully functional, self-hosted VSCode environment.
 
 ## Deployment
+Clone the repository:
 
-To deploy this project run
+bash
+Copy code
+git clone https://github.com/amirtaherkhani/vscoder.git
+cd vscoder
+Build and run the container:
 
-```bash
-  npm run deploy
-```
+bash
+Copy code
+docker-compose up --build
+Access VSCode via http://localhost:8080.
+
+Customization
+Modify the Dockerfile or docker-compose.yml to customize the setup according to your needs.
