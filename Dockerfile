@@ -17,7 +17,7 @@ RUN sudo ln -fs /usr/share/zoneinfo/${TZ} /etc/localtime \
 RUN sudo apt-get update \
     && sudo apt-get upgrade -y \
     && sudo apt-get install --no-install-recommends -y \
-    nano git openssh-server openssh-client openssl wget curl git \
+    nano git openssh-server unzip fontconfig openssh-client openssl wget curl git \
     python3 python3-venv python3-dev python3-pip build-essential tzdata \
     && sudo apt-get clean \
     && sudo apt-get autoclean \
@@ -33,6 +33,19 @@ RUN echo "alias pipx='python3 -m pipx'" >> /home/coder/.bashrc\
     && mkdir -p ~/.local/share/code-server/extensions \
     && mkdir -p ~/.local/share/code-server/vsix \ 
     && /home/coder/.local/bin/poetry completions bash >> /home/coder/.bash_completion 
+
+# Install Nerd Fonts
+# Install dependencies and Nerd Fonts
+RUN FONT_DIR="/home/coder/.local/share/fonts" \
+    && mkdir -p "$FONT_DIR" \
+    && wget -q "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/JetBrainsMono.zip" -O /tmp/JetBrainsMono.zip \
+    && unzip -o -qq /tmp/JetBrainsMono.zip -d "$FONT_DIR" \
+    && wget -q "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/RobotoMono.zip" -O /tmp/RobotoMono.zip \
+    && unzip -o -qq /tmp/RobotoMono.zip -d "$FONT_DIR" \
+    && wget -q "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/FiraCode.zip" -O /tmp/FiraCode.zip \
+    && unzip -o -qq /tmp/FiraCode.zip -d "$FONT_DIR" \
+    && fc-cache -fv \
+    && sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY requirements.txt /requirements.txt
 RUN pip install --no-cache-dir -U pip setuptools wheel \
