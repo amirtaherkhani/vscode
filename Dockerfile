@@ -18,7 +18,7 @@ RUN sudo apt-get update \
     && sudo apt-get upgrade -y \
     && sudo apt-get install --no-install-recommends -y \
     nano git openssh-server openssh-client openssl wget curl git \
-    python3.10 python3-venv python3-dev python3-pip build-essential tzdata \
+    python3 python3-venv python3-dev python3-pip build-essential tzdata \
     && sudo apt-get clean \
     && sudo apt-get autoclean \
     && sudo rm -rf /var/lib/apt/lists/*
@@ -27,8 +27,8 @@ RUN python3 -m pip --no-cache-dir install --user pipx \
     && python3 -m pipx ensurepath \
     && /home/coder/.local/bin/pipx install --quiet poetry
 
-RUN echo "alias pipx=python3 -m pipx" >> /home/coder/.bashrc\
-    && echo "alias python=python3.10" >> /home/coder/.bashrc \
+RUN echo "alias pipx='python3 -m pipx'" >> /home/coder/.bashrc\
+    && echo "alias python=python3" >> /home/coder/.bashrc \
     && echo 'export PATH=$HOME/.local/bin:$PATH' >> /home/coder/.bashrc \
     && mkdir -p ~/.local/share/code-server/extensions \
     && mkdir -p ~/.local/share/code-server/vsix \ 
