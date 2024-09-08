@@ -27,7 +27,7 @@ RUN python3 -m pip --no-cache-dir install --user pipx \
     && python3 -m pipx ensurepath \
     && /home/coder/.local/bin/pipx install --quiet poetry
 
-RUN echo "alias pipx='python3 -m pipx'" >> /home/coder/.bashrc\
+RUN echo 'pipx() { python3 -m pipx "$@"; }' >> /home/coder/.bashrc \
     && echo "alias python=python3" >> /home/coder/.bashrc \
     && echo 'export PATH=$HOME/.local/bin:$PATH' >> /home/coder/.bashrc \
     && mkdir -p ~/.local/share/code-server/extensions \
