@@ -1,6 +1,6 @@
 services:
   vscoder:
-    image: vscoder:v1.0.0-latest
+    image: amirmoth/vscoder:latest
     container_name: vscoder
     hostname: vscode-server
     stdin_open: true # docker run -i
