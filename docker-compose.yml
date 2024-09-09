@@ -1,27 +1,28 @@
+version: "3.8"
 services:
   vscoder:
-    image: amirmoth/vscoder:latest
+    image: amirmoth/vscoder:v1.0.1
     container_name: vscoder
     hostname: vscode-server
-    stdin_open: true # docker run -i
-    tty: true # docker run -t
+    privileged: true
+    stdin_open: true
+    user: ${UID}:${GID}
+    tty: true
     environment:
       - TZ=America/New_York
-    ports:
-      - 8080:8080 # vscoder ui app
-      - 2233:22 # ssh to container
-    healthcheck:
-      test: "curl -v http://localhost:8080/healthz || exit 1 "
-      interval: 5s
-      retries: 5
-      timeout: 2s
     volumes:
-      - ./.config:/home/coder/.config
-      - ./logs:/home/coder/.local/share/code-server/coder-logs
-      - ./extensions:/home/coder/.local/share/code-server/extensions
-      - ./vsix:/home/coder/.local/share/code-server/vsix
+      - ./data/.config:/home/coder/.config
+      - ./data:/home/coder/.local/share/code-server
+      - /home/dev:/home/coder
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.vscoder.rule=Host(`${HOST_NAME}`)
+      - traefik.http.routers.vscoder.entrypoints=websecure
+      - traefik.http.routers.vscoder.tls=true
+      - traefik.http.routers.vscoder.tls.certresolver=letsencrypt
+      - traefik.http.services.vscoder.loadbalancer.server.port=8080
     networks:
-      - default
+      - traefik-network
 networks:
-  default:
-    name: vscoder-network
+  traefik-network:
+    external: true
