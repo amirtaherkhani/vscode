@@ -21,6 +21,14 @@ services:
       - traefik.http.routers.vscoder.tls=true
       - traefik.http.routers.vscoder.tls.certresolver=letsencrypt
       - traefik.http.services.vscoder.loadbalancer.server.port=8080
+
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080 || exit 1"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+      
     networks:
       - traefik-network
 networks:
