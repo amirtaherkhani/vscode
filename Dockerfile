@@ -51,7 +51,8 @@ RUN FONT_DIR="/home/coder/.local/share/fonts" \
 COPY requirements.txt /requirements.txt
 RUN pip install --no-cache-dir -U pip setuptools wheel \
     && pip install --no-cache-dir -r /requirements.txt \
-    && sudo rm -rf /requirements.txt 
+    && sudo rm -rf /requirements.txt \
+    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash \
 
 RUN sudo apt-get clean \
     && sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
