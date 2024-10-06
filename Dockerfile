@@ -19,6 +19,7 @@ RUN sudo apt-get update \
     && sudo apt-get install --no-install-recommends -y \
     nano git openssh-server unzip fontconfig openssh-client openssl wget curl git \
     python3 python3-venv python3-dev python3-pip build-essential tzdata \
+    && sudo apt install golang \
     && sudo apt-get clean \
     && sudo apt-get autoclean \
     && sudo rm -rf /var/lib/apt/lists/*
